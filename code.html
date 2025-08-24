@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com/ajax/libs; style-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'none';">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecureWealth - Protected Financial Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #64748b;
+            --accent: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --secure: #059669;
+            --dark: #1e293b;
+            --light: #f8fafc;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+            color: #e2e8f0;
+        }
+        
+        .secure-bg {
+            background: linear-gradient(135deg, #1e40af 0%, #3730a3 100%);
+            border: 1px solid #3b82f6;
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+            border: 1px solid #334155;
+            background: #1e293b;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            border-color: #3b82f6;
+        }
+        
+        .secure-border {
+            border: 1px solid #059669;
+            box-shadow: 0 0 20px rgba(5, 150, 105, 0.2);
+        }
+        
+        .security-badge {
+            background: linear-gradient(135deg, #059669 0%, #065f46 100%);
+            border: 1px solid #10b981;
+        }
+        
+        .monospace {
+            font-family: 'Roboto Mono', monospace;
+        }
+        
+        .input-secure {
+            background: #1e293b;
+            border: 1px solid #475569;
+            color: #e2e8f0;
+        }
+        
+        .input-secure:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+        }
+        
+        .progress-bar {
+            transition: width 0.3s ease;
+        }
+        
+        .stock-change-positive {
+            color: #10b981;
+        }
+        
+        .stock-change-negative {
+            color: #ef4444;
+        }
+        
+        .connection-secure {
+            color: #10b981;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .security-scan {
+            background: linear-gradient(90deg, #1e293b, #334155, #1e293b);
+            background-size: 200% 100%;
+            animation: scan 3s linear infinite;
+        }
+        
+        @keyframes scan {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Security Header Bar -->
+    <div class="bg-gray-900 border-b border-gray-700 py-2 px-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <div class="connection-secure flex items-center">
+                    <i class="fas fa-shield-alt mr-2"></i>
+                    <span class="text-sm">Secure Connection</span>
+                </div>
+                <div class="text-green-400 text-sm flex items-center">
+                    <i class="fas fa-lock mr-2"></i>
+                    <span>HTTPS Encrypted</span>
+                </div>
+            </div>
+            <div class="text-sm text-gray-400">
+                Last security scan: <span class="text-green-400">Just now</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="bg-gray-800 border-b border-gray-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <h1 class="text-2xl font-bold text-blue-400">🔒 SecureWealth</h1>
+                    </div>
+                    <div class="hidden md:ml-6 md:flex md:space-x-8">
+                        <a href="#overview" class="text-gray-300 hover:text-blue-400 px-3 py-2 font-medium">Overview</a>
+                        <a href="#portfolio" class="text-gray-300 hover:text-blue-400 px-3 py-2 font-medium">Portfolio</a>
+                        <a href="#transactions" class="text-gray-300 hover:text-blue-400 px-3 py-2 font-medium">Transactions</a>
+                        <a href="#security" class="text-gray-300 hover:text-blue-400 px-3 py-2 font-medium">Security</a>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="security-badge px-3 py-1 rounded-full text-xs">
+                        <i class="fas fa-user-shield mr-1"></i>
+                        Protected Session
+                    </div>
+                    <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm">
+                        <i class="fas fa-door-open mr-2"></i>Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Security Status Banner -->
+    <div class="bg-green-900 bg-opacity-50 border-b border-green-600">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <i class="fas fa-check-circle text-green-400 mr-3"></i>
+                    <span class="text-green-200">All security systems active. Your financial data is protected with bank-grade encryption.</span>
+                </div>
+                <button class="text-green-400 hover:text-green-300 text-sm">
+                    <i class="fas fa-info-circle mr-1"></i>Details
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <div class="secure-bg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="text-center">
+                <div class="security-badge inline-flex items-center px-4 py-2 rounded-full mb-6">
+                    <i class="fas fa-shield-check mr-2"></i>
+                    ENCRYPTED FINANCIAL PLATFORM
+                </div>
+                <h2 class="text-4xl font-bold mb-4 text-white">Bank-Level Security for Your Wealth</h2>
+                <p class="text-xl text-blue-100 mb-8">Military-grade encryption. Real-time threat detection. Your finances, protected.</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white bg-opacity-5 p-6 rounded-lg border border-blue-500 border-opacity-30">
+                        <i class="fas fa-lock text-3xl mb-4 text-blue-400"></i>
+                        <h3 class="text-xl font-semibold mb-2 text-white">AES-256 Encryption</h3>
+                        <p class="text-blue-200">All data encrypted in transit and at rest</p>
+                    </div>
+                    <div class="bg-white bg-opacity-5 p-6 rounded-lg border border-green-500 border-opacity-30">
+                        <i class="fas fa-fingerprint text-3xl mb-4 text-green-400"></i>
+                        <h3 class="text-xl font-semibold mb-2 text-white">2FA Protected</h3>
+                        <p class="text-blue-200">Multi-factor authentication required</p>
+                    </div>
+                    <div class="bg-white bg-opacity-5 p-6 rounded-lg border border-purple-500 border-opacity-30">
+                        <i class="fas fa-shield-alt text-3xl mb-4 text-purple-400"></i>
+                        <h3 class="text-xl font-semibold mb-2 text-white">SOC 2 Compliant</h3>
+                        <p class="text-blue-200">Enterprise-grade security standards</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Security Overview -->
+        <section class="mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                <div class="security-badge p-4 rounded-lg text-center">
+                    <div class="text-2xl font-bold text-white mb-2">256-bit</div>
+                    <div class="text-sm text-green-200">Encryption</div>
+                </div>
+                <div class="security-badge p-4 rounded-lg text-center">
+                    <div class="text-2xl font-bold text-white mb-2">24/7</div>
+                    <div class="text-sm text-green-200">Monitoring</div>
+                </div>
+                <div class="security-badge p-4 rounded-lg text-center">
+                    <div class="text-2xl font-bold text-white mb-2">0</div>
+                    <div class="text-sm text-green-200">Security Incidents</div>
+                </div>
+                <div class="security-badge p-4 rounded-lg text-center">
+                    <div class="text-2xl font-bold text-white mb-2">99.99%</div>
+                    <div class="text-sm text-green-200">Uptime</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Overview Section -->
+        <section id="overview" class="mb-12">
+            <h2 class="text-3xl font-bold text-white mb-6">Financial Overview</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="card-hover rounded-xl p-6 secure-border">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-400">Total Portfolio</p>
+                            <h3 class="text-2xl font-bold text-white">$45,678.90</h3>
+                        </div>
+                        <div class="bg-green-900 bg-opacity-50 p-3 rounded-full">
+                            <i class="fas fa-chart-line text-green-400 text-xl"></i>
+                        </div>
+                    </div>
+                    <p class="text-green-400 mt-2"><i class="fas fa-arrow-up"></i> +12.3% this month</p>
+                </div>
+
+                <div class="card-hover rounded-xl p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-400">Monthly Expenses</p>
+                            <h3 class="text-2xl font-bold text-white">$2,345.67</h3>
+                        </div>
+                        <div class="bg-blue-900 bg-opacity-50 p-3 rounded-full">
+                            <i class="fas fa-credit-card text-blue-400 text-xl"></i>
+                        </div>
+                    </div>
+                    <p class="text-red-400 mt-2"><i class="fas fa-arrow-up"></i> +5.2% from last month</p>
+                </div>
+
+                <div class="card-hover rounded-xl p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-400">Investment Return</p>
+                            <h3 class="text-2xl font-bold text-white">$8,912.34</h3>
+                        </div>
+                        <div class="bg-purple-900 bg-opacity-50 p-3 rounded-full">
+                            <i class="fas fa-coins text-purple-400 text-xl"></i>
+                        </div>
+                    </div>
+                    <p class="text-green-400 mt-2"><i class="fas fa-arrow-up"></i> +18.7% YTD</p>
+                </div>
+
+                <div class="card-hover rounded-xl p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-400">Cash Balance</p>
+                            <h3 class="text-2xl font-bold text-white">$12,345.67</h3>
+                        </div>
+                        <div class="bg-yellow-900 bg-opacity-50 p-3 rounded-full">
+                            <i class="fas fa-piggy-bank text-yellow-400 text-xl"></i>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 mt-2">Available for investment</p>
+                </div>
+            </div>
+
+            <!-- Charts -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="card-hover rounded-xl p-6">
+                    <h3 class="text-xl font-semibold mb-4 text-white">Portfolio Performance</h3>
+                    <canvas id="portfolioChart" height="250"></canvas>
+                </div>
+                <div class="card-hover rounded-xl p-6">
+                    <h3 class="text-xl font-semibold mb-4 text-white">Expense Distribution</h3>
+                    <canvas id="expenseChart" height="250"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Portfolio Section -->
+        <section id="portfolio" class="mb-12">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-3xl font-bold text-white">Stock Portfolio</h2>
+                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors" onclick="showSecureModal('addStock')">
+                    <i class="fas fa-plus mr-2"></i>Add Stock
+                </button>
+            </div>
+
+            <div class="card-hover rounded-xl overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full">
+                        <thead class="bg-gray-700">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Stock</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Shares</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Avg Price</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Current</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Value</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Gain/Loss</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-gray-800 divide-y divide-gray-700">
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="bg-blue-900 bg-opacity-50 p-2 rounded-full mr-3">
+                                            <i class="fas fa-chart-line text-blue-400"></i>
+                                        </div>
+                                        <div>
+                                            <div class="font-medium text-white">AAPL</div>
+                                            <div class="text-sm text-gray-400">Apple Inc.</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-white">25</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-white">$145.67</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-white">$176.45</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-white">$4,411.25</td>
+                                <td class="px-6 py-4 whitespace-nowrap stock-change-positive">+$769.50 (+21.1%)</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <button class="text-blue-400 hover:text-blue-300 mr-3" onclick="showSecureModal('editStock')"><i class="fas fa-edit"></i></button>
+                                    <button class="text-red-400 hover:text-red-300" onclick="confirmAction('deleteStock')"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="bg-green-900 bg-opacity-50 p-2 rounded-full mr-3">
+                                            <i class="fas fa-chart-line text-green-400"></i>
+                                        </div>
+                                        <div>
+                                            <div class="font-medium text-white">MSFT</div>
+                                            <div class="text-sm text-gray-400">Microsoft Corp.</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-white">15</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-white">$287.89</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-white">$332.15</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-white">$4,982.25</td>
+                                <td class="px-6 py-4 whitespace-nowrap stock-change-positive">+$663.90 (+15.4%)</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <button class="text-blue-400 hover:text-blue-300 mr-3" onclick="showSecureModal('editStock')"><i class="fas fa-edit"></i></button>
+                                    <button class="text-red-400 hover:text-red-300" onclick="confirmAction('deleteStock')"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Security Section -->
+        <section id="security" class="mb-12">
+            <h2 class="text-3xl font-bold text-white mb-6">Security Center</h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                <div class="card-hover rounded-xl p-6">
+                    <h3 class="text-xl font-semibold mb-4 text-white">Security Status</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-3 bg-green-900 bg-opacity-30 rounded-lg">
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle text-green-400 mr-3"></i>
+                                <span>Two-Factor Authentication</span>
+                            </div>
+                            <span class="text-green-400">Active</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-green-900 bg-opacity-30 rounded-lg">
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle text-green-400 mr-3"></i>
+                                <span>Encrypted Connection</span>
+                            </div>
+                            <span class="text-green-400">TLS 1.3</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-green-900 bg-opacity-30 rounded-lg">
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle text-green-400 mr-3"></i>
+                                <span>Session Security</span>
+                            </div>
+                            <span class="text-green-400">Protected</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-hover rounded-xl p-6">
+                    <h3 class="text-xl font-semibold mb-4 text-white">Recent Activity</h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center text-sm">
+                            <span>Login from New York</span>
+                            <span class="text-gray-400">2 minutes ago</span>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span>Portfolio update</span>
+                            <span class="text-gray-400">5 minutes ago</span>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span>Security scan completed</span>
+                            <span class="text-gray-400">10 minutes ago</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Security Settings -->
+            <div class="card-hover rounded-xl p-6">
+                <h3 class="text-xl font-semibold mb-4 text-white">Security Settings</h3>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Enable Two-Factor Authentication</label>
+                        <div class="flex items-center">
+                            <div class="relative inline-block w-10 mr-2 align-middle select-none">
+                                <input type="checkbox" name="2fa" id="2fa-toggle" class="sr-only" checked>
+                                <label for="2fa-toggle" class="block overflow-hidden h-6 rounded-full bg-gray-600 cursor-pointer">
+                                    <span class="block h-6 w-6 rounded-full bg-white shadow transform transition-transform duration-200 ease-in-out translate-x-6"></span>
+                                </label>
+                            </div>
+                            <span class="text-green-400">Enabled</span>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Session Timeout</label>
+                        <select class="input-secure w-full p-2 rounded">
+                            <option>15 minutes of inactivity</option>
+                            <option selected>30 minutes of inactivity</option>
+                            <option>1 hour of inactivity</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Login Notifications</label>
+                        <div class="flex items-center">
+                            <div class="relative inline-block w-10 mr-2 align-middle select-none">
+                                <input type="checkbox" name="notifications" id="notif-toggle" class="sr-only" checked>
+                                <label for="notif-toggle" class="block overflow-hidden h-6 rounded-full bg-gray-600 cursor-pointer">
+                                    <span class="block h-6 w-6 rounded-full bg-white shadow transform transition-transform duration-200 ease-in-out translate-x-6"></span>
+                                </label>
+                            </div>
+                            <span class="text-green-400">Enabled</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Security Modal -->
+    <div id="securityModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center hidden z-50">
+        <div class="bg-gray-800 rounded-xl p-6 w-full max-w-md secure-border">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-semibold text-white">Security Verification</h3>
+                <button onclick="hideModal()" class="text-gray-400 hover:text-white">✕</button>
+            </div>
+            <div class="mb-4">
+                <p class="text-gray-300 mb-4">Please confirm your identity to continue</p>
+                <input type="password" placeholder="Enter your password" class="input-secure w-full p-3 rounded mb-3" autocomplete="current-password">
+                <input type="text" placeholder="2FA Code (if enabled)" class="input-secure w-full p-3 rounded" autocomplete="one-time-code">
+            </div>
+            <div class="flex justify-end space-x-3">
+                <button onclick="hideModal()" class="px-4 py-2 text-gray-300 hover:text-white">Cancel</button>
+                <button onclick="proceedWithAction()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Verify & Continue</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 border-t border-gray-700 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4 text-white">🔒 SecureWealth</h3>
+                    <p class="text-gray-400">Bank-level security for your financial data. Military-grade encryption and real-time protection.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4 text-white">Security Features</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li>AES-256 Encryption</li>
+                        <li>Two-Factor Authentication</li>
+                        <li>Real-time Monitoring</li>
+                        <li>SOC 2 Compliance</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4 text-white">Security Contact</h4>
+                    <div class="text-gray-400 space-y-2">
+                        <div><i class="fas fa-shield-alt mr-2"></i> security@securewealth.com</div>
+                        <div><i class="fas fa-phone mr-2"></i> +1-800-SECURE-00</div>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>© 2024 SecureWealth. All rights reserved. | <a href="#" class="text-blue-400 hover:text-blue-300">Privacy Policy</a> | <a href="#" class="text-blue-400 hover:text-blue-300">Security Policy</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Security headers and CSP enforcement
+        if (location.protocol !== 'https:' && location.hostname !== 'localhost') {
+            location.replace(`https://${location.hostname}${location.pathname}`);
+        }
+
+        // Initialize charts
+        document.addEventListener('DOMContentLoaded', function() {
+            // Portfolio Performance Chart
+            const portfolioCtx = document.getElementById('portfolioChart').getContext('2d');
+            new Chart(portfolioCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    datasets: [{
+                        label: 'Portfolio Value',
+                        data: [35000, 37000, 39000, 42000, 45000, 43000, 44000, 46000, 47000, 48000, 49000, 50000],
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Expense Distribution Chart
+            const expenseCtx = document.getElementById('expenseChart').getContext('2d');
+            new Chart(expenseCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Housing', 'Food', 'Transportation', 'Entertainment', 'Utilities'],
+                    datasets: [{
+                        data: [1500, 500, 300, 200, 150],
+                        backgroundColor: [
+                            '#ef4444',
+                            '#f59e0b',
+                            '#10b981',
+                            '#8b5cf6',
+                            '#3b82f6'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#e2e8f0'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Security functions
+            window.showSecureModal = function(action) {
+                document.getElementById('securityModal').classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            };
+
+            window.hideModal = function() {
+                document.getElementById('securityModal').classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            };
+
+            window.proceedWithAction = function() {
+                // Simulate secure action processing
+                hideModal();
+                // In a real app, this would verify credentials and proceed
+            };
+
+            window.confirmAction = function(action) {
+                if (confirm('Are you sure you want to perform this action? This cannot be undone.')) {
+                    showSecureModal(action);
+                }
+            };
+
+            // Input sanitization function
+            window.sanitizeInput = function(input) {
+                return input.replace(/[<>'"&]/g, '');
+            };
+
+            // Session timeout warning
+            let inactivityTime = function() {
+                let time;
+                window.onload = resetTimer;
+                document.onmousemove = resetTimer;
+                document.onkeypress = resetTimer;
+
+                function showWarning() {
+                    alert('Your session will expire in 1 minute due to inactivity.');
+                }
+
+                function resetTimer() {
+                    clearTimeout(time);
+                    time = setTimeout(showWarning, 1740000); // 29 minutes
+                    time = setTimeout(logout, 1800000); // 30 minutes
+                }
+
+                function logout() {
+                    alert('Session expired due to inactivity.');
+                    // Redirect to login
+                }
+            };
+            inactivityTime();
+        });
+    </script>
+</body>
+</html>
+
